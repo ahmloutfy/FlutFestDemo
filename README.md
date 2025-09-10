@@ -8,6 +8,12 @@ It includes essential ready-to-use screens and reusable components that you can 
 
 ---
 
+## 🚀 Live Preview
+
+[![Live Preview](https://img.shields.io/badge/Live%20Preview-Click%20Here-blue?style=for-the-badge)](https://ahmloutfy.github.io/FlutFestDemo/)
+
+---
+
 ## 🚀 Features
 
 * Modern & Professional Design – Clean, attractive UI tailored for event apps.
@@ -42,47 +48,37 @@ Not included in the Basic version (icons visible but not functional):
 ## 📂 Folder Structure
 
 ```
-flutfest/
-├── assets/
-│   ├── icons/
-│   │   └── social_media/
-│   └── images/
-├── lib/
-│   ├── core/
-│   │   └── helpers/
-│   │       └── snack_bar_helper.dart
-│   ├── logic/
-│   │   ├── controllers/
-│   │   │   ├── event_controller.dart
-│   │   │   └── favorite_controller.dart
-│   │   └── models/
-│   │       └── event_model.dart
-│   ├── theme.dart
-│   ├── main.dart
-│   ├── routes.dart
-│   ├── views/
-│   │   ├── forgot_password/
-│   │   │   └── forgot_password_screen.dart
-│   │   ├── home/
-│   │   │   ├── screens/
-│   │   │   │   ├── home_screen.dart
-│   │   │   │   └── home_tab_screen.dart
-│   │   │   └── widgets/
-│   │   │       ├── event_card.dart
-│   │   │       ├── event_categories.dart
-│   │   │       └── event_image.dart
-│   │   ├── login/
-│   │   │   └── login_screen.dart
-│   │   ├── register/
-│   │   │   └── register_screen.dart
-│   │   └── welcome/
-│   │       └── welcome_screen.dart
-│   └── widgets/
-│       ├── buttons/
-│       │   └── primary_button.dart
-│       └── custom_appbar.dart
-├── pubspec.yaml
-└── README.md
+📦 FlutFest
+┣ 📂 assets
+┃ ┣ 🖼️ images/
+┃ ┗ 🔊 fonts/
+┣ 📂 lib
+┃ ┣ 📂 controllers
+┃ ┃ ┣ 🧩 event_controller.dart
+┃ ┃ ┗ 🧩 favorite_controller.dart
+┃ ┣ 📂 models
+┃ ┃ ┗ 📄 event_model.dart
+┃ ┣ 📂 screens
+┃ ┃ ┣ 🏠 home_screen.dart
+┃ ┃ ┣ 🏠 home_tab_screen.dart
+┃ ┃ ┣ 👋 welcome_screen.dart
+┃ ┃ ┣ 🔐 login_screen.dart
+┃ ┃ ┗ 📝 register_screen.dart
+┃ ┣ 📂 widgets
+┃ ┃ ┣ 🎴 event_card.dart
+┃ ┃ ┣ 🗂️ events_categories.dart
+┃ ┃ ┣ 🖼️ event_image.dart
+┃ ┃ ┗ 🧭 custom_appbar.dart
+┃ ┣ 🎨 theme.dart
+┃ ┣ 🍭 snack_bar_helper.dart
+┃ ┣ 🛣️ routes.dart
+┃ ┗ 🚀 main.dart
+┣ 📂 test
+┃ ┗ 🧪 widget_test.dart
+┣ 📄 pubspec.yaml
+┣ 📄 README.md
+┗ 📄 .gitignore
+
 ```
 
 ---
