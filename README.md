@@ -8,7 +8,7 @@ It includes essential ready-to-use screens and reusable components that you can 
 
 ---
 
-## 🚀 Live Preview
+## 👀 Live Preview
 
 [![Live Preview](https://img.shields.io/badge/Live%20Preview-Click%20Here-blue?style=for-the-badge)](https://ahmloutfy.github.io/FlutFestDemo/)
 
