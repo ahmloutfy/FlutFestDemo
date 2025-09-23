@@ -79,6 +79,13 @@ Not included in the Basic version (icons visible but not functional):
 
 ---
 
+## 💳 Get FlutFest
+You can download the Basic UI Kit here:
+
+👉 [Buy on Gumroad]([https://gumroad.com/your-link](https://flutpulse.gumroad.com/l/FlutFest/))
+
+---
+
 ## 📂 Folder Structure
 
 ```
