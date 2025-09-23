@@ -45,6 +45,40 @@ Not included in the Basic version (icons visible but not functional):
 
 ---
 
+## 📸 Screenshots
+
+<p align="center">
+  <img src="screenshots/1-%20Splash%20-%20Dark.jpg" width="45%"/>
+  <img src="screenshots/1-%20Splash%20-%20Light.jpg" width="45%"/>
+</p>
+
+<p align="center">
+  <img src="screenshots/2-%20Welcome%20-%20Dark.jpg" width="45%"/>
+  <img src="screenshots/2-%20Welcome%20-%20Light.jpg" width="45%"/>
+</p>
+
+<p align="center">
+  <img src="screenshots/3-%20Register%20-%20Dark.jpg" width="45%"/>
+  <img src="screenshots/3-%20Register%20-%20Light.jpg" width="45%"/>
+</p>
+
+<p align="center">
+  <img src="screenshots/4-%20Login%20-%20Dark.jpg" width="45%"/>
+  <img src="screenshots/4-%20Login%20-%20Light.jpg" width="45%"/>
+</p>
+
+<p align="center">
+  <img src="screenshots/5-%20Forgot%20password%20-%20Dark.jpg" width="45%"/>
+  <img src="screenshots/5-%20Forgot%20password%20-%20Light.jpg" width="45%"/>
+</p>
+
+<p align="center">
+  <img src="screenshots/6-%20Home%20-%20Dark.jpg" width="45%"/>
+  <img src="screenshots/6-%20Home%20-%20Light.jpg" width="45%"/>
+</p>
+
+---
+
 ## 📂 Folder Structure
 
 ```
