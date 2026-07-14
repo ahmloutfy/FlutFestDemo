@@ -57691,7 +57691,7 @@ A.BU.prototype={
 I(a){var s=null
 return A.jb(s,s,A.ua(new A.BE(A.BM(new A.awZ(A.ah(a,s,t.w).w.e===B.a8)),s),s,B.Y,s,s,s,B.ab),s,s,s,s)}}
 A.awZ.prototype={
-$2(a,b){var s=null,r=b.b,q=r*0.1,p=r*0.4,o=A.ZN("assets/images/flutfest_logo.png",B.M,s,B.hT,s,r*0.9),n=A.aB("Login to FlutFest",s,s,s,s,A.Q(a).ok.d,B.bx,s,s),m=A.m8(!1,s,"Enter your email",s,"Email",1,!1,s,s,s,s),l=A.m8(!1,s,"Enter your password",s,"Password",1,!0,s,s,s,s),k=A.ji(A.aB("Forgot Password?",s,s,s,s,A.dW(s,s,B.ka,s,s,s,s,s,s,s,s,s,s,s,s,s,s,!0,s,s,s,s,s,s,s,s),s,s,s),new A.awU(),s),j=r*0.8,i=A.ca(new A.my("Login",new A.awV(),s,s),s,j),h=t.p,g=A.di(A.c([B.kB,new A.b3(B.oe,A.aB("or",s,s,s,s,A.Q(a).ok.Q,s,s,s),s),B.kB],h),B.D,B.v,B.F,0,s),f=A.ca(new A.my("Login with Google",new A.awW(),A.b5K(u.J,new A.pd(B.k,B.jT,s,B.nD),20,20),s),s,j),e=A.eo(),d=A.b5K("assets/icons/social_media/apple-logo.svg",new A.pd(this.a?B.n:B.k,B.jT,s,B.nD),20,20)
+$2(a,b){var s=null,r=b.b,q=r*0.1,p=r*0.4,o=A.ZN("assets/images/logo.png",B.M,s,B.hT,s,r*0.9),n=A.aB("Login to FlutFest",s,s,s,s,A.Q(a).ok.d,B.bx,s,s),m=A.m8(!1,s,"Enter your email",s,"Email",1,!1,s,s,s,s),l=A.m8(!1,s,"Enter your password",s,"Password",1,!0,s,s,s,s),k=A.ji(A.aB("Forgot Password?",s,s,s,s,A.dW(s,s,B.ka,s,s,s,s,s,s,s,s,s,s,s,s,s,s,!0,s,s,s,s,s,s,s,s),s,s,s),new A.awU(),s),j=r*0.8,i=A.ca(new A.my("Login",new A.awV(),s,s),s,j),h=t.p,g=A.di(A.c([B.kB,new A.b3(B.oe,A.aB("or",s,s,s,s,A.Q(a).ok.Q,s,s,s),s),B.kB],h),B.D,B.v,B.F,0,s),f=A.ca(new A.my("Login with Google",new A.awW(),A.b5K(u.J,new A.pd(B.k,B.jT,s,B.nD),20,20),s),s,j),e=A.eo(),d=A.b5K("assets/icons/social_media/apple-logo.svg",new A.pd(this.a?B.n:B.k,B.jT,s,B.nD),20,20)
 return new A.b3(new A.ay(q,p,q,p),A.cg(A.c([o,B.bo,n,B.bo,m,B.bo,l,B.bo,k,B.bo,i,B.bo,g,B.bo,A.cg(A.c([f,e,A.ca(new A.my("Login with Apple",new A.awX(),d,s),s,j)],h),B.D,B.c3,B.av,0,B.J),B.bo,A.di(A.c([B.aHK,A.ji(A.aB("Register",s,s,s,s,A.dW(s,s,B.af,s,s,s,s,s,s,s,s,s,s,s,s,s,s,!0,s,s,s,s,s,s,s,s),s,s,s),new A.awY(),s)],h),B.D,B.c3,B.F,0,s)],h),B.D,B.v,B.F,0,B.J),s)},
 $S:164}
 A.awU.prototype={
@@ -57977,7 +57977,7 @@ A.CL.prototype={
 I(a){var s=null
 return A.jb(s,s,A.ua(new A.BE(A.BM(new A.aEd()),s),s,B.Y,s,s,s,B.ab),s,s,s,s)}}
 A.aEd.prototype={
-$2(a,b){var s=null,r=b.b,q=r*0.1,p=r*0.4,o=A.ZN("assets/images/flutfest_logo.png",B.M,s,B.hT,s,r*0.9),n=A.aB("Create an Account",s,s,s,s,A.Q(a).ok.d,B.bx,s,s),m=A.m8(!1,s,"Enter your name",s,"Full Name",1,!1,s,s,s,s),l=A.m8(!1,s,"Enter your email",s,"Email",1,!1,s,s,s,s),k=A.m8(!1,s,"Create a password",s,"Password",1,!0,s,s,s,s),j=A.m8(!1,s,"Re-enter your password",s,"Confirm Password",1,!0,s,s,s,s),i=r*0.8,h=A.ca(new A.my("Register",new A.aEa(),s,s),s,i),g=t.p,f=A.di(A.c([B.kB,new A.b3(B.oe,A.aB("or",s,s,s,s,A.Q(a).ok.Q,s,s,s),s),B.kB],g),B.D,B.v,B.F,0,s),e=A.md(s,s,B.h6,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s)
+$2(a,b){var s=null,r=b.b,q=r*0.1,p=r*0.4,o=A.ZN("assets/images/logo.png",B.M,s,B.hT,s,r*0.9),n=A.aB("Create an Account",s,s,s,s,A.Q(a).ok.d,B.bx,s,s),m=A.m8(!1,s,"Enter your name",s,"Full Name",1,!1,s,s,s,s),l=A.m8(!1,s,"Enter your email",s,"Email",1,!1,s,s,s,s),k=A.m8(!1,s,"Create a password",s,"Password",1,!0,s,s,s,s),j=A.m8(!1,s,"Re-enter your password",s,"Confirm Password",1,!0,s,s,s,s),i=r*0.8,h=A.ca(new A.my("Register",new A.aEa(),s,s),s,i),g=t.p,f=A.di(A.c([B.kB,new A.b3(B.oe,A.aB("or",s,s,s,s,A.Q(a).ok.Q,s,s,s),s),B.kB],g),B.D,B.v,B.F,0,s),e=A.md(s,s,B.h6,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s,s)
 return new A.b3(new A.ay(q,p,q,p),A.cg(A.c([o,B.bo,n,B.bo,m,B.bo,l,B.bo,k,B.bo,j,B.bo,h,B.bo,f,B.bo,A.ca(A.Yd(A.di(A.c([B.rk,A.b5K(u.J,B.Xj,20,20),B.bo,B.aHP,B.rk],g),B.D,B.v,B.F,0,s),new A.aEb(),e),s,i),B.bo,A.di(A.c([B.aHb,A.ji(A.aB("Login",s,s,s,s,A.dW(s,s,B.af,s,s,s,s,s,s,s,s,s,s,s,s,s,s,!0,s,s,s,s,s,s,s,s),s,s,s),new A.aEc(),s)],g),B.D,B.c3,B.F,0,s)],g),B.D,B.v,B.F,0,B.J),s)},
 $S:164}
 A.aEa.prototype={
@@ -58059,7 +58059,7 @@ A.El.prototype={
 I(a){var s=null,r=B.am.e7(0.2),q=B.af.e7(0.2)
 return A.jb(s,s,new A.BE(A.BM(new A.aMp(A.ah(a,s,t.w).w.e===B.a8?q:r)),s),s,s,s,s)}}
 A.aMp.prototype={
-$2(a,b){var s,r,q,p=null,o=b.b,n=A.eH(A.ZN("assets/images/flutfest_logo.png",B.M,p,B.hT,b.d*0.3,o*0.9),p,p),m=A.Q(a).ok.d
+$2(a,b){var s,r,q,p=null,o=b.b,n=A.eH(A.ZN("assets/images/logo.png",B.M,p,B.hT,b.d*0.3,o*0.9),p,p),m=A.Q(a).ok.d
 m=A.aB("Welcome to FlutFest!",p,p,p,p,m==null?p:m.HH(o*0.08),B.bx,p,p)
 s=A.eo()
 r=A.Q(a).ok.y
