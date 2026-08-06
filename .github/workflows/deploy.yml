@@ -1,0 +1,42 @@
+name: Deploy Flutter Web to GitHub Pages
+on:
+  push:
+    branches:
+      - FlutFest # Updated to match your current branch name
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Fetch the latest codebase from the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2. Set up Java Environment (Required for some Flutter build tools)
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      # 3. Setup Flutter SDK
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      # 4. Fetch the application dependencies
+      - name: Install dependencies
+        run: flutter pub get
+
+      # 5. Build Flutter web app with dynamic base-href injection
+      - name: Build Flutter Web
+        run: flutter build web --release --base-href "/${{ github.event.repository.name }}/"
+        # The line above automatically configures the base href using your repository name,
+        # which eliminates the need to manually edit the index.html base tag.
+
+      # 6. Deploy the compiled web files to the gh-pages branch
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages # The target branch where static web files will be pushed
+          folder: build/web # The subdirectory containing the compiled web build
