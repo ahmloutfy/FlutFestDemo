@@ -20,9 +20,8 @@ Future<void> main() async {
 
   runApp(
     DevicePreview(
-      // DevicePreview is a development utility; it must not wrap the web app
-      // running in a browser.
-      enabled: !kReleaseMode,
+      // Enabled for Web Demo (even in release) but disabled for Mobile Release
+      enabled: kIsWeb || !kReleaseMode,
       builder: (context) => FlutFest(),
     ),
   );
