@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutfest/logic/controllers/settings_controller.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsScreen extends StatelessWidget {
   SettingsScreen({super.key});
@@ -23,19 +24,21 @@ class SettingsScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
-              Column(
-                children: ThemeOption.values.map((option) {
-                  return RadioListTile<ThemeOption>(
-                    title: Text(option.name.capitalizeFirst ?? option.name),
-                    value: option,
-                    groupValue: controller.themeOption.value,
-                    onChanged: (newValue) {
-                      if (newValue != null) {
-                        controller.changeTheme(newValue);
-                      }
-                    },
-                  );
-                }).toList(),
+              RadioGroup<ThemeOption>(
+                groupValue: controller.themeOption.value,
+                onChanged: (newValue) {
+                  if (newValue != null) {
+                    controller.changeTheme(newValue);
+                  }
+                },
+                child: Column(
+                  children: ThemeOption.values.map((option) {
+                    return RadioListTile<ThemeOption>(
+                      title: Text(option.name.capitalizeFirst ?? option.name),
+                      value: option,
+                    );
+                  }).toList(),
+                ),
               ),
 
               const Divider(height: 32),
@@ -110,6 +113,29 @@ class SettingsScreen extends StatelessWidget {
                 subtitle: const Text('Add events automatically to device calendar'),
                 value: controller.defaultEnableCalendar.value,
                 onChanged: controller.toggleDefaultCalendar,
+              ),
+
+              const Divider(height: 32),
+
+              const Text(
+                'About App',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              ListTile(
+                leading: const Icon(Icons.privacy_tip_outlined),
+                title: const Text('Privacy Policy'),
+                trailing: const Icon(Icons.open_in_new, size: 20),
+                onTap: () async {
+                  final Uri url = Uri.parse('https://ahmloutfy.github.io/FlutFestDemo/privacy_policy.html');
+                  if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+                    Get.snackbar('Error', 'Could not open privacy policy');
+                  }
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.info_outline),
+                title: const Text('App Version'),
+                subtitle: const Text('1.1.0+7'),
               ),
             ],
           );

@@ -47,8 +47,8 @@ class CustomTextField extends StatelessWidget {
         hintStyle: TextStyle(
 
           color: isDark
-              ? AppTheme.darkFieldTextColor.withOpacity(0.7)
-              : AppTheme.lightFieldTextColor.withOpacity(0.7),
+              ? AppTheme.darkFieldTextColor.withValues(alpha: 0.7)
+              : AppTheme.lightFieldTextColor.withValues(alpha: 0.7),
         ),
 
         prefixIcon: prefixIcon != null

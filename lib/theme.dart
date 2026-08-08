@@ -141,7 +141,7 @@ class AppTheme {
           color: AppTheme.lightFieldTextColor,
         );
       }),
-      hintStyle: TextStyle(color: AppTheme.lightFieldTextColor.withOpacity(0.7),),      filled: true,
+      hintStyle: TextStyle(color: AppTheme.lightFieldTextColor.withValues(alpha: 0.7),),      filled: true,
       fillColor: lightInputFillColor,
       border: OutlineInputBorder(
         borderSide: BorderSide(color: lightBorderColor),
@@ -178,7 +178,7 @@ class AppTheme {
       ),
       labelColor: lightButtonTextColor,
       // The active tabular text color
-      unselectedLabelColor: lightTextColor.withOpacity(0.6),
+      unselectedLabelColor: lightTextColor.withValues(alpha: 0.6),
       // Inactive tab text color
       labelStyle: GoogleFonts.montserrat(
         fontSize: 16,
@@ -193,7 +193,7 @@ class AppTheme {
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: lightBackgroundColor,
       selectedItemColor: lightButtonColor,
-      unselectedItemColor: lightTextColor.withOpacity(0.6),
+      unselectedItemColor: lightTextColor.withValues(alpha: 0.6),
       selectedLabelStyle: GoogleFonts.montserrat(
         fontSize: 12,
         fontWeight: FontWeight.w600,
@@ -217,7 +217,7 @@ class AppTheme {
         if (states.contains(WidgetState.selected)) {
           return lightButtonColor;
         }
-        return lightTextColor.withOpacity(0.6);
+        return lightTextColor.withValues(alpha: 0.6);
       }),
     ),
     checkboxTheme: CheckboxThemeData(
@@ -225,34 +225,34 @@ class AppTheme {
         if (states.contains(WidgetState.selected)) {
           return lightButtonColor;
         }
-        return lightTextColor.withOpacity(0.6);
+        return lightTextColor.withValues(alpha: 0.6);
       }),
     ),
     switchTheme: SwitchThemeData(
       trackColor: WidgetStateProperty.resolveWith<Color>((states) {
         if (states.contains(WidgetState.selected)) {
-          return lightButtonColor.withOpacity(0.5);
+          return lightButtonColor.withValues(alpha: 0.5);
         }
-        return lightTextColor.withOpacity(0.3);
+        return lightTextColor.withValues(alpha: 0.3);
       }),
       thumbColor: WidgetStateProperty.resolveWith<Color>((states) {
         if (states.contains(WidgetState.selected)) {
           return lightButtonColor;
         }
-        return lightTextColor.withOpacity(0.6);
+        return lightTextColor.withValues(alpha: 0.6);
       }),
     ),
     textSelectionTheme: TextSelectionThemeData(
       cursorColor: AppTheme.lightCursorColor,
-      selectionColor: AppTheme.lightCursorColor.withOpacity(0.3),
+      selectionColor: AppTheme.lightCursorColor.withValues(alpha: 0.3),
       selectionHandleColor: AppTheme.lightCursorColor,
     ),
     datePickerTheme: DatePickerThemeData(
       backgroundColor: AppTheme.lightBackgroundColor,
       dayStyle: TextStyle(color: AppTheme.lightTextColor),
-      rangeSelectionBackgroundColor: AppTheme.lightButtonColor.withOpacity(0.3),
+      rangeSelectionBackgroundColor: AppTheme.lightButtonColor.withValues(alpha: 0.3),
       rangeSelectionOverlayColor: WidgetStateProperty.all(
-        AppTheme.lightButtonColor.withOpacity(0.15),
+        AppTheme.lightButtonColor.withValues(alpha: 0.15),
       ),
     ),
 
@@ -331,7 +331,7 @@ class AppTheme {
           color: AppTheme.darkFieldTextColor,
         );
       }),
-      hintStyle: TextStyle(color: AppTheme.darkFieldTextColor.withOpacity(0.7),),      filled: true,
+      hintStyle: TextStyle(color: AppTheme.darkFieldTextColor.withValues(alpha: 0.7),),      filled: true,
       fillColor: darkInputFillColor,
       border: OutlineInputBorder(
         borderSide: BorderSide(color: darkBorderColor),
@@ -368,7 +368,7 @@ class AppTheme {
       ),
       labelColor: darkButtonTextColor,
       // The active tabular text color
-      unselectedLabelColor: darkTextColor.withOpacity(0.6),
+      unselectedLabelColor: darkTextColor.withValues(alpha: 0.6),
       // Inactive tab text color
       labelStyle: GoogleFonts.montserrat(
         fontSize: 16,
@@ -382,7 +382,7 @@ class AppTheme {
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: darkBackgroundColor,
       selectedItemColor: darkButtonColor,
-      unselectedItemColor: darkTextColor.withOpacity(0.6),
+      unselectedItemColor: darkTextColor.withValues(alpha: 0.6),
       selectedLabelStyle: GoogleFonts.montserrat(
         fontSize: 12,
         fontWeight: FontWeight.w600,
@@ -406,7 +406,7 @@ class AppTheme {
         if (states.contains(WidgetState.selected)) {
           return darkButtonColor;
         }
-        return darkTextColor.withOpacity(0.6);
+        return darkTextColor.withValues(alpha: 0.6);
       }),
     ),
     checkboxTheme: CheckboxThemeData(
@@ -414,34 +414,34 @@ class AppTheme {
         if (states.contains(WidgetState.selected)) {
           return darkButtonColor;
         }
-        return darkTextColor.withOpacity(0.6);
+        return darkTextColor.withValues(alpha: 0.6);
       }),
     ),
     switchTheme: SwitchThemeData(
       trackColor: WidgetStateProperty.resolveWith<Color>((states) {
         if (states.contains(WidgetState.selected)) {
-          return darkButtonColor.withOpacity(0.5);
+          return darkButtonColor.withValues(alpha: 0.5);
         }
-        return darkTextColor.withOpacity(0.3);
+        return darkTextColor.withValues(alpha: 0.3);
       }),
       thumbColor: WidgetStateProperty.resolveWith<Color>((states) {
         if (states.contains(WidgetState.selected)) {
           return darkButtonColor;
         }
-        return darkTextColor.withOpacity(0.6);
+        return darkTextColor.withValues(alpha: 0.6);
       }),
     ),
     textSelectionTheme: TextSelectionThemeData(
       cursorColor: AppTheme.darkCursorColor,
-      selectionColor: AppTheme.darkCursorColor.withOpacity(0.3),
+      selectionColor: AppTheme.darkCursorColor.withValues(alpha: 0.3),
       selectionHandleColor: AppTheme.darkCursorColor,
     ),
     datePickerTheme: DatePickerThemeData(
       backgroundColor: AppTheme.darkBackgroundColor,
       dayStyle: TextStyle(color: AppTheme.darkTextColor),
-      rangeSelectionBackgroundColor: AppTheme.darkButtonColor.withOpacity(0.3),
+      rangeSelectionBackgroundColor: AppTheme.darkButtonColor.withValues(alpha: 0.3),
       rangeSelectionOverlayColor: WidgetStateProperty.all(
-        AppTheme.darkButtonColor.withOpacity(0.15),
+        AppTheme.darkButtonColor.withValues(alpha: 0.15),
       ),
     ),
 

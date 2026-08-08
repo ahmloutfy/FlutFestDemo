@@ -21,12 +21,12 @@ class PickDateHelper {
             ),
             datePickerTheme: DatePickerThemeData(
               rangeSelectionBackgroundColor: isDark
-                  ? AppTheme.darkButtonColor.withOpacity(0.3)
-                  : AppTheme.lightButtonColor.withOpacity(0.3),
+                  ? AppTheme.darkButtonColor.withValues(alpha: 0.3)
+                  : AppTheme.lightButtonColor.withValues(alpha: 0.3),
               rangeSelectionOverlayColor: WidgetStateProperty.all(
                 isDark
-                    ? AppTheme.darkButtonColor.withOpacity(0.15)
-                    : AppTheme.lightButtonColor.withOpacity(0.15),
+                    ? AppTheme.darkButtonColor.withValues(alpha: 0.15)
+                    : AppTheme.lightButtonColor.withValues(alpha: 0.15),
               ),
             ),
           ),

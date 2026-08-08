@@ -33,8 +33,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Widget build(BuildContext context) {
     final Color translucentBlue = AppTheme.getColorForTheme(
       context: context,
-      lightModeColor: AppTheme.lightButtonColor.withOpacity(0.2),
-      darkModeColor: AppTheme.darkButtonColor.withOpacity(0.2),
+      lightModeColor: AppTheme.lightButtonColor.withValues(alpha: 0.2),
+      darkModeColor: AppTheme.darkButtonColor.withValues(alpha: 0.2),
     );
 
     return Scaffold(
@@ -96,7 +96,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: translucentBlue,
                       foregroundColor: Colors.white,
-                      side: BorderSide(color: Colors.white.withOpacity(0.6)),
+                      side: BorderSide(color: Colors.white.withValues(alpha: 0.6)),
                       elevation: 0,
                     ),
                     onPressed: () {
@@ -116,7 +116,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: translucentBlue,
                         foregroundColor: Colors.white,
-                        side: BorderSide(color: Colors.white.withOpacity(0.6)),
+                        side: BorderSide(color: Colors.white.withValues(alpha: 0.6)),
                         elevation: 0,
                       ),
                       onPressed: () {

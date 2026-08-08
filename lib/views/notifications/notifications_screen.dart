@@ -167,7 +167,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                       fontSize: Get.width * 0.035,
                       color: Theme.of(
                         context,
-                      ).colorScheme.onSurface.withOpacity(0.8),
+                      ).colorScheme.onSurface.withValues(alpha: 0.8),
                     ),
                   ),
                   SizedBox(height: Get.height * 0.01),

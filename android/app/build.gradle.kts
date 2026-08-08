@@ -13,7 +13,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.flutfest"
+    namespace = "com.flutpulse.flutfest"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
