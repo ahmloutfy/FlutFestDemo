@@ -1,0 +1,31 @@
+FlutPulse Standard License
+Version 1.0
+
+Copyright © FlutPulse
+
+This license grants the purchaser (“Licensee”) the following rights:
+
+1. Permitted Use
+- The Licensee may use this UI Kit in one (1) personal or commercial project.
+- The Licensee may modify, adapt, and integrate the source code into their own application.
+- The Licensee may publish and distribute the final compiled application (e.g., on Google Play, App Store, or web).
+
+2. Restrictions
+The Licensee is NOT allowed to:
+- Resell, redistribute, or share the UI Kit, source code, or any part of it.
+- Publish the UI Kit or source code publicly (including GitHub or similar platforms).
+- Use the UI Kit in more than one project without purchasing an additional license.
+- Include the UI Kit in any template, UI kit, or product intended for resale.
+
+3. Ownership
+All rights, title, and interest in the UI Kit remain the property of FlutPulse.  
+The Licensee receives a non-exclusive, non-transferable license to use the product under the terms above.
+
+4. Liability
+The UI Kit is provided “as is” without warranty of any kind.  
+FlutPulse is not liable for any damages or issues arising from the use of the product.
+
+5. Updates
+The Licensee is entitled to receive future updates of the UI Kit at no additional cost.
+
+By downloading, purchasing, or using this product, the Licensee agrees to the terms of this license.
