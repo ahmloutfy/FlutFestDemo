@@ -68,7 +68,7 @@ class RegisterScreen extends StatelessWidget {
                       width: width * 0.8,
                       child: PrimaryButton(
                         onPressed: () {
-                          Get.toNamed(Routes.home);
+                          Get.offAllNamed(Routes.home);
 
                           showCustomSnackBar(
                             "UI navigation only. Implement your login logic.",

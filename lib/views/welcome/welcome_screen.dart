@@ -120,7 +120,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         elevation: 0,
                       ),
                       onPressed: () {
-                        Get.offAllNamed(Routes.home);
+                        Get.toNamed(Routes.home);
                       },
                       child: const Text('Explore UI Screens'),
                     ),
