@@ -1,6 +1,6 @@
 // lib/views/home/components/event_card.dart
 import 'package:flutfest/core/helpers/attendance_helper.dart';
-import 'package:flutfest/core/helpers/event_helpers.dart'; // يحتوي formatEventDate
+import 'package:flutfest/core/helpers/event_helpers.dart'; // contains formatEventDate
 import 'package:flutfest/core/helpers/snackbar_helper.dart';
 import 'package:flutfest/logic/controllers/event_controller.dart';
 import 'package:flutfest/logic/controllers/favorite_controller.dart';
@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 
-// يحتوي handleAttendance
+// contains handleAttendance
 
 class EventCard extends StatelessWidget {
   final EventModel event;

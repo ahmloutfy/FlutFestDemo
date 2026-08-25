@@ -9,8 +9,26 @@ import 'package:flutter_gutter/flutter_gutter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-class LoginScreen extends StatelessWidget {
+import '../../core/helpers/validation_helper.dart';
+
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,54 +46,63 @@ class LoginScreen extends StatelessWidget {
                   horizontal: width * 0.1,
                   vertical: width * 0.4,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      'assets/images/logo.png',
-                      width: width * 0.9,
-                      fit: BoxFit.contain,
-                    ),
-                    const Gutter(),
-                    Text(
-                      'Login to FlutFest',
-                  textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headlineLarge,
-                    ),
-                    const Gutter(),
-                    CustomTextField(
-                      label: 'Email',
-                      hint: 'Enter your email',
-                    ),
-                    const Gutter(),
-                    CustomTextField(
-                      obscureText: true,
-                      label: 'Password',
-                      hint: 'Enter your password',
-                    ),
-                    const Gutter(),
-                    TextButton(
-                      onPressed: () {
-                        Get.toNamed(Routes.forgotPassword);
-                      },
-                      child: Text(
-                        'Forgot Password?',
-                        style: TextStyle(color: AppTheme.darkLinkColor),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/images/logo.png',
+                        width: width * 0.9,
+                        fit: BoxFit.contain,
                       ),
-                    ),
-                    const Gutter(),
-                    SizedBox(
-                      width: width * 0.8,
-                      child: PrimaryButton(
+                      const Gutter(),
+                      Text(
+                        'Login to FlutFest',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.headlineLarge,
+                      ),
+                      const Gutter(),
+                      CustomTextField(
+                        controller: _emailController,
+                        label: 'Email',
+                        hint: 'Enter your email',
+                        keyboardType: TextInputType.emailAddress,
+                        validator: ValidationHelper.validateEmail,
+                      ),
+                      const Gutter(),
+                      CustomTextField(
+                        controller: _passwordController,
+                        obscureText: true,
+                        label: 'Password',
+                        hint: 'Enter your password',
+                        validator: ValidationHelper.validatePassword,
+                      ),
+                      const Gutter(),
+                      TextButton(
                         onPressed: () {
-                          Get.offNamed(Routes.home);
-                          showCustomSnackBar(
-                            "UI navigation only. Implement your login logic.",
-                          );
+                          Get.toNamed(Routes.forgotPassword);
                         },
-                        text: 'Login',
+                        child: Text(
+                          'Forgot Password?',
+                          style: TextStyle(color: AppTheme.darkLinkColor),
+                        ),
                       ),
-                    ),
+                      const Gutter(),
+                      SizedBox(
+                        width: width * 0.8,
+                        child: PrimaryButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              Get.offNamed(Routes.home);
+                              showCustomSnackBar(
+                                "Login successful! (UI simulation)",
+                              );
+                            }
+                          },
+                          text: 'Login',
+                        ),
+                      ),
                     const Gutter(),
                     Row(
                       children: [
@@ -169,7 +196,8 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-              );
+              ),
+            );
             },
           ),
         ),

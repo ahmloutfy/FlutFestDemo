@@ -3,6 +3,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:get/get.dart';
 import 'package:geocoding/geocoding.dart';
+import 'dart:async';
 
 class PickLocationScreen extends StatefulWidget {
   const PickLocationScreen({super.key});
@@ -19,6 +20,10 @@ class _PickLocationScreenState extends State<PickLocationScreen> {
   final TextEditingController _searchController = TextEditingController();
   final Geocoding _geocoding = Geocoding();
 
+  List<Map<String, dynamic>> _suggestions = [];
+  bool _isSearching = false;
+  Timer? _debounce;
+
   @override
   void initState() {
     super.initState();
@@ -28,32 +33,176 @@ class _PickLocationScreenState extends State<PickLocationScreen> {
   @override
   void dispose() {
     _searchController.dispose();
+    _debounce?.cancel();
     super.dispose();
   }
 
   Future<void> _getCurrentLocation() async {
     try {
-      LocationPermission permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied ||
-          permission == LocationPermission.deniedForever) {
-        Get.snackbar('Permission', 'Location permission denied');
+      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) {
+        if (mounted) Get.snackbar('Error', 'Location services are disabled.');
+        return;
+      }
+
+      LocationPermission permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          if (mounted) Get.snackbar('Permission', 'Location permission denied');
+          return;
+        }
+      }
+
+      if (permission == LocationPermission.deniedForever) {
+        if (mounted) Get.snackbar('Permission', 'Location permissions are permanently denied');
         return;
       }
 
       Position position = await Geolocator.getCurrentPosition(
-        locationSettings: const LocationSettings(accuracy: LocationAccuracy.best),
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.high,
+          timeLimit: Duration(seconds: 10),
+        ),
       );
 
+      if (!mounted) return;
+
+      final newPos = LatLng(position.latitude, position.longitude);
       setState(() {
-        _pickedLocation = LatLng(position.latitude, position.longitude);
+        _pickedLocation = newPos;
       });
-      await _updateAddressFromLocation(_pickedLocation!);
+
       _mapController?.animateCamera(
-        CameraUpdate.newLatLngZoom(_pickedLocation!, 15),
+        CameraUpdate.newLatLngZoom(newPos, 15),
       );
+
+      await _updateAddressFromLocation(newPos);
     } catch (e) {
-      Get.snackbar('Error', 'Could not get current location');
+      debugPrint('Location Error: $e');
+      if (mounted) Get.snackbar('Error', 'Could not get current location. Please ensure GPS is on.');
     }
+  }
+
+  Future<void> _onSearchChanged(String query) async {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    
+    if (query.length < 3) {
+      setState(() {
+        _suggestions = [];
+        _isSearching = false;
+      });
+      return;
+    }
+
+    _debounce = Timer(const Duration(milliseconds: 700), () async {
+      setState(() {
+        _isSearching = true;
+      });
+
+      try {
+        // Requesting results in both Arabic and English to ensure the best coverage
+        final locations = await _geocoding.locationFromAddress(query);
+        
+        List<Map<String, dynamic>> tempSuggestions = [];
+        
+        for (var loc in locations.take(5)) {
+          try {
+            final placemarks = await _geocoding.placemarkFromCoordinates(
+              loc.latitude, 
+              loc.longitude,
+            );
+            
+            if (placemarks.isNotEmpty) {
+              final p = placemarks.first;
+              final name = _buildCleanAddress(p);
+              
+              // Avoid duplicate places in the list
+              if (!tempSuggestions.any((s) => s['display'] == name)) {
+                tempSuggestions.add({
+                  'display': name,
+                  'lat': loc.latitude,
+                  'lng': loc.longitude,
+                });
+              }
+            }
+          } catch (_) {}
+        }
+
+        if (mounted) {
+          setState(() {
+            _suggestions = tempSuggestions;
+            _isSearching = false;
+          });
+        }
+      } catch (e) {
+        if (mounted) setState(() => _isSearching = false);
+      }
+    });
+  }
+
+  String _buildCleanAddress(Placemark p) {
+    // Put p.name at the beginning because it's often the landmark name (e.g., Pyramids or street name)
+    final parts = [
+      p.name,
+      p.subLocality,
+      p.locality,
+      p.administrativeArea,
+    ];
+    
+    final cleanParts = <String>[];
+    for (var part in parts) {
+      if (part != null && part.isNotEmpty && !part.contains('+')) {
+        // Avoid duplicate similar words (e.g., if the name is the same as the city)
+        if (!cleanParts.any((element) => element.contains(part!) || part.contains(element))) {
+          cleanParts.add(part);
+        }
+      }
+    }
+
+    if (cleanParts.isEmpty) {
+      return p.name ?? 'Unknown Location';
+    }
+    
+    // Take the first 3 parts to have a focused and useful address
+    return cleanParts.take(3).join(', ');
+  }
+
+  Future<void> _performSearch() async {
+    final query = _searchController.text.trim();
+    if (query.isEmpty) return;
+    
+    setState(() => _suggestions = []);
+
+    try {
+      final locations = await _geocoding.locationFromAddress(query);
+      if (locations.isNotEmpty) {
+        final loc = locations.first;
+        _selectPosition(LatLng(loc.latitude, loc.longitude));
+      }
+    } catch (e) {
+      Get.snackbar('Not Found', 'Could not find "$query"');
+    }
+  }
+
+  void _selectPosition(LatLng pos) async {
+    setState(() {
+      _pickedLocation = pos;
+      _suggestions = [];
+    });
+
+    _mapController?.animateCamera(
+      CameraUpdate.newLatLngZoom(pos, 15),
+    );
+
+    await _updateAddressFromLocation(pos);
+    
+    // Update the search box with the clean address to be clear to the user
+    setState(() {
+      _searchController.text = _pickedAddress;
+    });
+    
+    FocusScope.of(context).unfocus();
   }
 
   void _onTap(LatLng position) {
@@ -61,7 +210,6 @@ class _PickLocationScreenState extends State<PickLocationScreen> {
       _pickedLocation = position;
     });
     _updateAddressFromLocation(position);
-
   }
 
   void _onMapCreated(GoogleMapController controller) {
@@ -70,42 +218,6 @@ class _PickLocationScreenState extends State<PickLocationScreen> {
       _mapController!.animateCamera(
         CameraUpdate.newLatLngZoom(_pickedLocation!, 15),
       );
-
-    }
-  }
-
-  Future<void> _performSearch() async {
-    final query = _searchController.text.trim();
-    if (query.isEmpty) {
-      Get.snackbar('Warning', 'Please enter a location to search');
-      return;
-    }
-
-    try {
-      final locations = await _geocoding.locationFromAddress(query);
-
-      if (locations.isNotEmpty) {
-        final loc = locations.first;
-        final pos = LatLng(loc.latitude, loc.longitude);
-
-        setState(() {
-          _pickedLocation = pos;
-        });
-
-        _mapController?.animateCamera(
-          CameraUpdate.newLatLngZoom(pos, 15),
-        );
-
-        await _updateAddressFromLocation(pos);
-        if (!mounted) return;
-        // Focus out from keyboard
-        FocusScope.of(context).unfocus();
-      } else {
-        Get.snackbar('Not found', 'No results found for "$query". Try a more specific address.');
-      }
-    } catch (e) {
-      Get.snackbar('Error', 'Failed to search location. Please check your internet or try different keywords.');
-      debugPrint('Geocoding error: $e');
     }
   }
 
@@ -117,22 +229,14 @@ class _PickLocationScreenState extends State<PickLocationScreen> {
       );
 
       if (placemarks.isNotEmpty) {
-        Placemark place = placemarks.first;
-
         setState(() {
-          _pickedAddress = [
-            place.street,
-            place.subLocality,
-            place.locality,
-            place.administrativeArea,
-            place.country,
-          ].where((part) => part != null && part.isNotEmpty).join(', ');
+          _pickedAddress = _buildCleanAddress(placemarks.first);
         });
       }
     } catch (e) {
       debugPrint('Reverse geocoding error: $e');
       setState(() {
-        _pickedAddress = '${location.latitude.toStringAsFixed(6)}, ${location.longitude.toStringAsFixed(6)}';
+        _pickedAddress = '${location.latitude.toStringAsFixed(5)}, ${location.longitude.toStringAsFixed(5)}';
       });
     }
   }
@@ -165,49 +269,71 @@ class _PickLocationScreenState extends State<PickLocationScreen> {
             zoomControlsEnabled: true,
           ),
 
-          // Search Bar
+          // Search Bar & Suggestions
           Positioned(
             top: MediaQuery.of(context).padding.top + 12,
             left: 16,
             right: 16,
-            child: Material(
-              elevation: 6,
-              borderRadius: BorderRadius.circular(12),
-              color: Theme.of(context).cardColor,
-              child: TextField(
-                controller: _searchController,
-                textInputAction: TextInputAction.search,
-                decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.search),
-                  hintText: 'Search location',
-                  border: InputBorder.none,
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 14,
-                  ),
-                  suffixIcon: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (_searchController.text.isNotEmpty)
-                        IconButton(
-                          icon: const Icon(Icons.clear),
-                          onPressed: () {
-                            _searchController.clear();
-                            setState(() {});
-                          },
-                        ),
-                      IconButton(
-                        icon: const Icon(Icons.search, color: Colors.blue),
-                        onPressed: _performSearch,
-                      ),
-                    ],
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Material(
+                  elevation: 6,
+                  borderRadius: BorderRadius.circular(12),
+                  color: Theme.of(context).cardColor,
+                  child: TextField(
+                    controller: _searchController,
+                    textInputAction: TextInputAction.search,
+                    decoration: InputDecoration(
+                      prefixIcon: _isSearching 
+                        ? const SizedBox(width: 20, height: 20, child: Padding(padding: EdgeInsets.all(12), child: CircularProgressIndicator(strokeWidth: 2)))
+                        : const Icon(Icons.search),
+                      hintText: 'Search location...',
+                      border: InputBorder.none,
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                      suffixIcon: _searchController.text.isNotEmpty
+                        ? IconButton(
+                            icon: const Icon(Icons.clear),
+                            onPressed: () {
+                              _searchController.clear();
+                              _onSearchChanged('');
+                            },
+                          )
+                        : null,
+                    ),
+                    onChanged: _onSearchChanged,
+                    onSubmitted: (_) => _performSearch(),
                   ),
                 ),
-                onSubmitted: (value) => _performSearch(),   // لا يزال يعمل مع Enter
-                onChanged: (value) {
-                  setState(() {}); // لتحديث الـ clear button
-                },
-              ),
+                
+                // Suggestions List
+                if (_suggestions.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4),
+                    child: Material(
+                      elevation: 8,
+                      borderRadius: BorderRadius.circular(12),
+                      color: Theme.of(context).cardColor,
+                      child: ListView.separated(
+                        shrinkWrap: true,
+                        padding: EdgeInsets.zero,
+                        itemCount: _suggestions.length,
+                        separatorBuilder: (_, __) => const Divider(height: 1),
+                        itemBuilder: (context, index) {
+                          final suggestion = _suggestions[index];
+                          return ListTile(
+                            leading: const Icon(Icons.location_on_outlined, color: Colors.blue),
+                            title: Text(suggestion['display'], style: const TextStyle(fontSize: 14)),
+                            onTap: () {
+                              _searchController.text = suggestion['display'];
+                              _selectPosition(LatLng(suggestion['lat'], suggestion['lng']));
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+              ],
             ),
           ),
 

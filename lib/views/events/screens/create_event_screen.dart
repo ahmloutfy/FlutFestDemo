@@ -227,8 +227,8 @@ class CreateEventScreen extends StatelessWidget {
                   if (result != null && result is Map<String, dynamic>) {
                     viewModel.setLocation(
                       address: result['address'] ?? '',
-                      lat: result['latitude'],
-                      lng: result['longitude'],
+                      lat: result['lat'],
+                      lng: result['lng'],
                     );
                   }
                 },

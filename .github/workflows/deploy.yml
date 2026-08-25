@@ -2,7 +2,7 @@ name: Deploy Flutter Web to GitHub Pages
 on:
   push:
     branches:
-      - FlutFestDemo # تم التغيير إلى الفرع الذي تريده
+      - FlutFestDemo # Branch changed to the desired one
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest

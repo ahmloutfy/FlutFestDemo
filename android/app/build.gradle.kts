@@ -59,6 +59,6 @@ flutter {
 }
 
 dependencies {
-    // تم تصحيح هذا السطر ليتوافق مع Kotlin DSL
+    // This line has been corrected to comply with Kotlin DSL
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
 }

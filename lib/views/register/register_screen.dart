@@ -10,8 +10,30 @@ import 'package:get/get.dart';
 import '../../widgets/backgrounds/intro_background.dart';
 import '../../widgets/buttons/primary_button.dart';
 
-class RegisterScreen extends StatelessWidget {
+import '../../core/helpers/validation_helper.dart';
+
+class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
+
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final _fullNameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _fullNameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,56 +49,71 @@ class RegisterScreen extends StatelessWidget {
                   horizontal: width * 0.1,
                   vertical: width * 0.4,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      'assets/images/logo.png',
-                      width: width * 0.9,
-                      fit: BoxFit.contain,
-                    ),
-                    const Gutter(),
-                    Text(
-                      'Create an Account',
-                  textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headlineLarge,
-                    ),
-                    const Gutter(),
-                    CustomTextField(
-                      label: 'Full Name',
-                      hint: 'Enter your name',
-                    ),
-                    const Gutter(),
-                    CustomTextField(
-                      label: 'Email',
-                      hint: 'Enter your email',
-                    ),
-                    const Gutter(),
-                    CustomTextField(
-                      obscureText: true,
-                      label: 'Password',
-                      hint: 'Create a password',
-                    ),
-                    const Gutter(),
-                    CustomTextField(
-                      obscureText: true,
-                      label: 'Confirm Password',
-                      hint: 'Re-enter your password',
-                    ),
-                    const Gutter(),
-                    SizedBox(
-                      width: width * 0.8,
-                      child: PrimaryButton(
-                        onPressed: () {
-                          Get.offAllNamed(Routes.home);
-
-                          showCustomSnackBar(
-                            "UI navigation only. Implement your login logic.",
-                          );
-                        },
-                        text: 'Register',
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/images/logo.png',
+                        width: width * 0.9,
+                        fit: BoxFit.contain,
                       ),
-                    ),
+                      const Gutter(),
+                      Text(
+                        'Create an Account',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.headlineLarge,
+                      ),
+                      const Gutter(),
+                      CustomTextField(
+                        controller: _fullNameController,
+                        label: 'Full Name',
+                        hint: 'Enter your name',
+                        validator: ValidationHelper.validateFullName,
+                      ),
+                      const Gutter(),
+                      CustomTextField(
+                        controller: _emailController,
+                        label: 'Email',
+                        hint: 'Enter your email',
+                        keyboardType: TextInputType.emailAddress,
+                        validator: ValidationHelper.validateEmail,
+                      ),
+                      const Gutter(),
+                      CustomTextField(
+                        controller: _passwordController,
+                        obscureText: true,
+                        label: 'Password',
+                        hint: 'Create a password',
+                        validator: ValidationHelper.validatePassword,
+                      ),
+                      const Gutter(),
+                      CustomTextField(
+                        controller: _confirmPasswordController,
+                        obscureText: true,
+                        label: 'Confirm Password',
+                        hint: 'Re-enter your password',
+                        validator: (value) => ValidationHelper.validateConfirmPassword(
+                          _passwordController.text,
+                          value,
+                        ),
+                      ),
+                      const Gutter(),
+                      SizedBox(
+                        width: width * 0.8,
+                        child: PrimaryButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              Get.offAllNamed(Routes.home);
+                              showCustomSnackBar(
+                                "Registration successful! (UI simulation)",
+                              );
+                            }
+                          },
+                          text: 'Register',
+                        ),
+                      ),
                     const Gutter(),
                     Row(
                       children: [
@@ -143,7 +180,8 @@ class RegisterScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-              );
+              ),
+            );
             },
           ),
         ),

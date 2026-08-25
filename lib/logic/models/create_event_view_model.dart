@@ -29,7 +29,7 @@ class CreateEventViewModel extends GetxController {
   RxBool isGenerating = false.obs;           // For AI Event Generator loading
 
   // Image Error State
-  RxString imageError = ''.obs;              // ← رجعتها لك
+  RxString imageError = ''.obs;              // Returned it to you
 
   RxBool isPushEnabled = true.obs;
   RxBool isEmailEnabled = false.obs;
