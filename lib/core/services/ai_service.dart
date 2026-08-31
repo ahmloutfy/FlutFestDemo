@@ -2,7 +2,6 @@ import 'package:google_generative_ai/google_generative_ai.dart';
 import 'dart:convert';
 
 class AIService {
-  // TODO: Replace this with your real Gemini API Key
   static const String _apiKey = 'AIzaSyCFJ6LOaX5KpnnCBuCLpvNUSfsXcarZ5pw';
 
   final model = GenerativeModel(

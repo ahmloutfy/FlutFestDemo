@@ -55,7 +55,10 @@ class _PickLocationScreenState extends State<PickLocationScreen> {
       }
 
       if (permission == LocationPermission.deniedForever) {
-        if (mounted) Get.snackbar('Permission', 'Location permissions are permanently denied');
+        if (mounted) {
+          Get.snackbar(
+              'Permission', 'Location permissions are permanently denied');
+        }
         return;
       }
 
@@ -80,13 +83,16 @@ class _PickLocationScreenState extends State<PickLocationScreen> {
       await _updateAddressFromLocation(newPos);
     } catch (e) {
       debugPrint('Location Error: $e');
-      if (mounted) Get.snackbar('Error', 'Could not get current location. Please ensure GPS is on.');
+      if (mounted) {
+        Get.snackbar('Error',
+            'Could not get current location. Please ensure GPS is on.');
+      }
     }
   }
 
   Future<void> _onSearchChanged(String query) async {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
-    
+
     if (query.length < 3) {
       setState(() {
         _suggestions = [];
@@ -103,20 +109,20 @@ class _PickLocationScreenState extends State<PickLocationScreen> {
       try {
         // Requesting results in both Arabic and English to ensure the best coverage
         final locations = await _geocoding.locationFromAddress(query);
-        
+
         List<Map<String, dynamic>> tempSuggestions = [];
-        
+
         for (var loc in locations.take(5)) {
           try {
             final placemarks = await _geocoding.placemarkFromCoordinates(
-              loc.latitude, 
+              loc.latitude,
               loc.longitude,
             );
-            
+
             if (placemarks.isNotEmpty) {
               final p = placemarks.first;
               final name = _buildCleanAddress(p);
-              
+
               // Avoid duplicate places in the list
               if (!tempSuggestions.any((s) => s['display'] == name)) {
                 tempSuggestions.add({
@@ -149,12 +155,13 @@ class _PickLocationScreenState extends State<PickLocationScreen> {
       p.locality,
       p.administrativeArea,
     ];
-    
+
     final cleanParts = <String>[];
     for (var part in parts) {
       if (part != null && part.isNotEmpty && !part.contains('+')) {
         // Avoid duplicate similar words (e.g., if the name is the same as the city)
-        if (!cleanParts.any((element) => element.contains(part!) || part.contains(element))) {
+        if (!cleanParts.any(
+            (element) => element.contains(part) || part.contains(element))) {
           cleanParts.add(part);
         }
       }
@@ -163,7 +170,7 @@ class _PickLocationScreenState extends State<PickLocationScreen> {
     if (cleanParts.isEmpty) {
       return p.name ?? 'Unknown Location';
     }
-    
+
     // Take the first 3 parts to have a focused and useful address
     return cleanParts.take(3).join(', ');
   }
@@ -171,7 +178,7 @@ class _PickLocationScreenState extends State<PickLocationScreen> {
   Future<void> _performSearch() async {
     final query = _searchController.text.trim();
     if (query.isEmpty) return;
-    
+
     setState(() => _suggestions = []);
 
     try {
@@ -196,12 +203,12 @@ class _PickLocationScreenState extends State<PickLocationScreen> {
     );
 
     await _updateAddressFromLocation(pos);
-    
+
     // Update the search box with the clean address to be clear to the user
     setState(() {
       _searchController.text = _pickedAddress;
     });
-    
+
     FocusScope.of(context).unfocus();
   }
 
@@ -236,7 +243,8 @@ class _PickLocationScreenState extends State<PickLocationScreen> {
     } catch (e) {
       debugPrint('Reverse geocoding error: $e');
       setState(() {
-        _pickedAddress = '${location.latitude.toStringAsFixed(5)}, ${location.longitude.toStringAsFixed(5)}';
+        _pickedAddress =
+            '${location.latitude.toStringAsFixed(5)}, ${location.longitude.toStringAsFixed(5)}';
       });
     }
   }
@@ -258,11 +266,11 @@ class _PickLocationScreenState extends State<PickLocationScreen> {
             onMapCreated: _onMapCreated,
             markers: _pickedLocation != null
                 ? {
-              Marker(
-                markerId: const MarkerId('picked'),
-                position: _pickedLocation!,
-              )
-            }
+                    Marker(
+                      markerId: const MarkerId('picked'),
+                      position: _pickedLocation!,
+                    )
+                  }
                 : {},
             myLocationEnabled: true,
             myLocationButtonEnabled: true,
@@ -285,27 +293,34 @@ class _PickLocationScreenState extends State<PickLocationScreen> {
                     controller: _searchController,
                     textInputAction: TextInputAction.search,
                     decoration: InputDecoration(
-                      prefixIcon: _isSearching 
-                        ? const SizedBox(width: 20, height: 20, child: Padding(padding: EdgeInsets.all(12), child: CircularProgressIndicator(strokeWidth: 2)))
-                        : const Icon(Icons.search),
+                      prefixIcon: _isSearching
+                          ? const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: Padding(
+                                  padding: EdgeInsets.all(12),
+                                  child: CircularProgressIndicator(
+                                      strokeWidth: 2)))
+                          : const Icon(Icons.search),
                       hintText: 'Search location...',
                       border: InputBorder.none,
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 14),
                       suffixIcon: _searchController.text.isNotEmpty
-                        ? IconButton(
-                            icon: const Icon(Icons.clear),
-                            onPressed: () {
-                              _searchController.clear();
-                              _onSearchChanged('');
-                            },
-                          )
-                        : null,
+                          ? IconButton(
+                              icon: const Icon(Icons.clear),
+                              onPressed: () {
+                                _searchController.clear();
+                                _onSearchChanged('');
+                              },
+                            )
+                          : null,
                     ),
                     onChanged: _onSearchChanged,
                     onSubmitted: (_) => _performSearch(),
                   ),
                 ),
-                
+
                 // Suggestions List
                 if (_suggestions.isNotEmpty)
                   Padding(
@@ -322,11 +337,14 @@ class _PickLocationScreenState extends State<PickLocationScreen> {
                         itemBuilder: (context, index) {
                           final suggestion = _suggestions[index];
                           return ListTile(
-                            leading: const Icon(Icons.location_on_outlined, color: Colors.blue),
-                            title: Text(suggestion['display'], style: const TextStyle(fontSize: 14)),
+                            leading: const Icon(Icons.location_on_outlined,
+                                color: Colors.blue),
+                            title: Text(suggestion['display'],
+                                style: const TextStyle(fontSize: 14)),
                             onTap: () {
                               _searchController.text = suggestion['display'];
-                              _selectPosition(LatLng(suggestion['lat'], suggestion['lng']));
+                              _selectPosition(
+                                  LatLng(suggestion['lat'], suggestion['lng']));
                             },
                           );
                         },

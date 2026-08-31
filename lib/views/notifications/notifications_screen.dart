@@ -140,41 +140,37 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     return InkWell(
       onTap: onTap,
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: Get.height * 0.01),
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Icon(
               icon ?? Icons.notifications_active,
-              size: Get.width * 0.06,
+              size: 28,
               color: Theme.of(context).colorScheme.primary,
             ),
-            SizedBox(width: Get.width * 0.04),
+            const SizedBox(width: 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     title,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontSize: Get.width * 0.045,
-                    ),
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
-                  SizedBox(height: Get.height * 0.005),
+                  const SizedBox(height: 4),
                   Text(
                     message,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontSize: Get.width * 0.035,
                       color: Theme.of(
                         context,
                       ).colorScheme.onSurface.withValues(alpha: 0.8),
                     ),
                   ),
-                  SizedBox(height: Get.height * 0.01),
+                  const SizedBox(height: 6),
                   Text(
                     time,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      fontSize: Get.width * 0.03,
                       color: Colors.grey,
                     ),
                   ),
