@@ -12,7 +12,9 @@ class EventImage extends StatelessWidget {
     final imagePath = event.image;
     if (imagePath == null || imagePath.isEmpty) return _unsupportedImage();
 
-    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+    if (imagePath.startsWith('http://') ||
+        imagePath.startsWith('https://') ||
+        imagePath.startsWith('data:image/')) {
       return Image.network(
         imagePath,
         alignment: const Alignment(0, -0.3),

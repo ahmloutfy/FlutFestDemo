@@ -10,10 +10,18 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'logic/controllers/user_controller.dart';
 
+// Set to false to skip the native splash delay during development by not
+// awaiting notification init before the first frame. Keep true for release.
+const bool waitForNotificationInitOnStartup = true;
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (!kIsWeb) {
-    await NotificationService.init();
+    if (kReleaseMode || waitForNotificationInitOnStartup) {
+      await NotificationService.init();
+    } else {
+      NotificationService.init();
+    }
   }
   await GetStorage.init();
   Get.put(UserController());

@@ -9,7 +9,6 @@ class CreateEventViewModel extends GetxController {
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   final locationController = TextEditingController();
-  final Geocoding _geocoding = Geocoding();
 
   // Location
   RxString pickedLocationText = ''.obs;
@@ -22,19 +21,18 @@ class CreateEventViewModel extends GetxController {
   Rx<DateTimeRange?> selectedDateRange = Rx<DateTimeRange?>(null);
 
   // Image
-  Rx<File?> pickedImage = Rx<File?>(null);
+  Rx<XFile?> pickedImage = Rx<XFile?>(null);
   RxString imagePath = ''.obs;
 
   // AI Generation State
-  RxBool isGenerating = false.obs;           // For AI Event Generator loading
+  RxBool isGenerating = false.obs; // For AI Event Generator loading
 
   // Image Error State
-  RxString imageError = ''.obs;              // Returned it to you
+  RxString imageError = ''.obs; // Returned it to you
 
   RxBool isPushEnabled = true.obs;
   RxBool isEmailEnabled = false.obs;
   RxInt selectedReminderMinutes = 15.obs; // Default to 15 minutes
-
 
   // ==================== Setters ====================
 
@@ -71,7 +69,9 @@ class CreateEventViewModel extends GetxController {
   // ==================== Reverse Geocoding ====================
   Future<void> getAddressFromLatLng(double lat, double lng) async {
     try {
-      List<Placemark> placemarks = await _geocoding.placemarkFromCoordinates(lat, lng);
+      final geocoding = Geocoding();
+      List<Placemark> placemarks =
+          await geocoding.placemarkFromCoordinates(lat, lng);
 
       if (placemarks.isNotEmpty) {
         final placemark = placemarks.first;
@@ -116,13 +116,14 @@ class CreateEventViewModel extends GetxController {
 
   // ==================== Image Picker ====================
   Future<void> pickImage() async {
-    imageError.value = '';   // Clear previous error
+    imageError.value = ''; // Clear previous error
 
     final picker = ImagePicker();
-    final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    final XFile? pickedFile =
+        await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      pickedImage.value = File(pickedFile.path);
+      pickedImage.value = pickedFile;
       imagePath.value = pickedFile.path;
     } else {
       imageError.value = 'No image selected';

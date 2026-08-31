@@ -1,6 +1,5 @@
 // 📁 lib/logic/controllers/create_event_controller.dart
 
-import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -16,7 +15,7 @@ class CreateEventController extends GetxController {
   final descriptionController = TextEditingController();
 
   final selectedDate = Rxn<DateTime>();
-  final pickedImage = Rxn<File>();
+  final pickedImage = Rxn<XFile>();
 
   var isPushEnabled = true.obs;
   var isEmailEnabled = false.obs;
@@ -43,7 +42,8 @@ class CreateEventController extends GetxController {
       isPushEnabled.value = settingsController.defaultEnablePush.value;
       isEmailEnabled.value = settingsController.defaultEnableEmail.value;
       isCalendarEnabled.value = settingsController.defaultEnableCalendar.value;
-      selectedReminderMinutes.value = settingsController.defaultReminderMinutes.value;
+      selectedReminderMinutes.value =
+          settingsController.defaultReminderMinutes.value;
     } catch (e) {
       // Fallback in case SettingsController is not registered or initialized yet
       if (kDebugMode) {
@@ -53,9 +53,11 @@ class CreateEventController extends GetxController {
 
     // Request notification permissions manually for Android 13+ and iOS when screen opens
     try {
-      final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+      final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+          FlutterLocalNotificationsPlugin();
       await flutterLocalNotificationsPlugin
-          .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+          .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>()
           ?.requestNotificationsPermission();
     } catch (e) {
       if (kDebugMode) {
@@ -69,7 +71,7 @@ class CreateEventController extends GetxController {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-      pickedImage.value = File(pickedFile.path);
+      pickedImage.value = pickedFile;
     }
   }
 

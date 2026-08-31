@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:convert';
 
 import 'package:flutfest/logic/models/event_model.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,19 @@ class EventImage extends StatelessWidget {
         fit: BoxFit.cover,
         errorBuilder: (_, __, ___) => _unsupportedImage(),
       );
+    }
+
+    if (imagePath.startsWith('data:image/')) {
+      final commaIndex = imagePath.indexOf(',');
+      if (commaIndex >= 0) {
+        return Image.memory(
+          base64Decode(imagePath.substring(commaIndex + 1)),
+          alignment: const Alignment(0, -0.3),
+          height: imageHeight,
+          fit: BoxFit.cover,
+          errorBuilder: (_, __, ___) => _unsupportedImage(),
+        );
+      }
     }
 
     return Image.file(

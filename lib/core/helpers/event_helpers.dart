@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutfest/core/helpers/snackbar_helper.dart';
 import 'package:flutfest/core/services/notification_service.dart';
 import 'package:flutfest/logic/controllers/event_controller.dart';
@@ -40,7 +42,8 @@ void inviteFriends(EventModel event) {
   final text = 'Join me at this event: ${event.title} '
       'on $formattedDate at ${event.location ?? "Unknown location"}';
   SharePlus.instance.share(ShareParams(
-    text: text, subject: 'Event Invitation',
+    text: text,
+    subject: 'Event Invitation',
   ));
 }
 
@@ -69,6 +72,9 @@ void submitEventForm({
     return;
   }
 
+  final imageBytes = await viewModel.pickedImage.value!.readAsBytes();
+  final imageDataUri = 'data:image/jpeg;base64,${base64Encode(imageBytes)}';
+
   final newEvent = EventModel(
     eventId: eventController.eventUuid.v4(),
     title: viewModel.titleController.text,
@@ -76,7 +82,7 @@ void submitEventForm({
     description: viewModel.descriptionController.text,
     startDate: range.start,
     endDate: range.end,
-    image: viewModel.pickedImage.value!.path,
+    image: imageDataUri,
     creatorId: userController.currentUserId.value,
     joinedUserIds: [],
     remindMeBefore: viewModel.selectedReminderMinutes.value,

@@ -1,8 +1,8 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ImagePickerPreview extends StatelessWidget {
-  final File? imageFile;
+  final XFile? imageFile;
   final String? imageUrl;
 
   const ImagePickerPreview({
@@ -14,14 +14,26 @@ class ImagePickerPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (imageFile != null) {
-      return ClipRRect(
-        borderRadius: BorderRadius.circular(12),
-        child: Image.file(
-          imageFile!,
-          width: double.infinity,
-          height: 200,
-          fit: BoxFit.cover,
-        ),
+      return FutureBuilder(
+        future: imageFile!.readAsBytes(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const SizedBox(
+              height: 200,
+              child: Center(child: CircularProgressIndicator()),
+            );
+          }
+
+          return ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: Image.memory(
+              snapshot.data!,
+              width: double.infinity,
+              height: 200,
+              fit: BoxFit.cover,
+            ),
+          );
+        },
       );
     } else if (imageUrl != null && imageUrl!.isNotEmpty) {
       if (imageUrl!.startsWith('http')) {
@@ -34,11 +46,11 @@ class ImagePickerPreview extends StatelessWidget {
             fit: BoxFit.cover,
           ),
         );
-      } else {
+      } else if (imageUrl!.startsWith('data:image/')) {
         return ClipRRect(
           borderRadius: BorderRadius.circular(12),
-          child: Image.file(
-            File(imageUrl!),
+          child: Image.network(
+            imageUrl!,
             width: double.infinity,
             height: 200,
             fit: BoxFit.cover,

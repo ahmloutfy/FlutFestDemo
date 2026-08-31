@@ -18,7 +18,6 @@ class _PickLocationScreenState extends State<PickLocationScreen> {
   String _pickedAddress = 'Select a location on the map';
 
   final TextEditingController _searchController = TextEditingController();
-  final Geocoding _geocoding = Geocoding();
 
   List<Map<String, dynamic>> _suggestions = [];
   bool _isSearching = false;
@@ -109,13 +108,13 @@ class _PickLocationScreenState extends State<PickLocationScreen> {
       try {
         // Requesting results in both Arabic and English to ensure the best coverage
         final locations = await _geocoding.locationFromAddress(query);
-
+        
         List<Map<String, dynamic>> tempSuggestions = [];
 
         for (var loc in locations.take(5)) {
           try {
             final placemarks = await _geocoding.placemarkFromCoordinates(
-              loc.latitude,
+              loc.latitude, 
               loc.longitude,
             );
 
@@ -182,7 +181,8 @@ class _PickLocationScreenState extends State<PickLocationScreen> {
     setState(() => _suggestions = []);
 
     try {
-      final locations = await _geocoding.locationFromAddress(query);
+      final geocoding = Geocoding();
+      final locations = await geocoding.locationFromAddress(query);
       if (locations.isNotEmpty) {
         final loc = locations.first;
         _selectPosition(LatLng(loc.latitude, loc.longitude));
@@ -230,7 +230,8 @@ class _PickLocationScreenState extends State<PickLocationScreen> {
 
   Future<void> _updateAddressFromLocation(LatLng location) async {
     try {
-      List<Placemark> placemarks = await _geocoding.placemarkFromCoordinates(
+      final geocoding = Geocoding();
+      List<Placemark> placemarks = await geocoding.placemarkFromCoordinates(
         location.latitude,
         location.longitude,
       );
