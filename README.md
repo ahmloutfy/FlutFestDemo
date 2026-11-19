@@ -35,39 +35,65 @@ It is designed for developers or designers who want to start their project quick
 
 ```
 flutfest/
-├── .github/workflows/
-│   └── deploy.yml            # Auto-deployment to GitHub Pages
+├── .github/
+│   └── workflows/
+│       └── deploy.yml             # GitHub Pages deployment workflow
 ├── assets/
+│   ├── fonts/
 │   ├── icons/
+│   │   └── social_media/
 │   └── images/
-│       └── events/           # Categorized event assets
+│       └── events/
+├── web/
+│   ├── icons/
+│   ├── splash/
+│   ├── index.html
+│   ├── manifest.json
+│   └── privacy_policy.html
 ├── lib/
 │   ├── core/
-│   │   ├── bindings/         # GetX Dependency injection
-│   │   ├── helpers/          # SnackBar, Event, and Date helpers
-│   │   ├── services/         # Notification & AI services
-│   │   ├── utils/            # Shared constants and dummy data
-│   │   └── widgets/          # Platform-specific widgets (AdMob/Images)
+│   │   ├── bindings/              # GetX dependency bindings
+│   │   ├── helpers/               # Validation, date, event, and snackbar helpers
+│   │   ├── services/              # Auth, event, AI, ads, and notification services
+│   │   ├── utils/                 # Shared utilities and sample event data
+│   │   └── widgets/               # Platform-specific shared widgets
 │   ├── logic/
-│   │   ├── controllers/      # Business logic (Event, User, Settings)
-│   │   └── models/           # Data models (Event, ViewModels)
+│   │   ├── controllers/           # App and feature controllers
+│   │   ├── models/                # Event, user, and form view models
+│   │   └── repositories/          # Auth and event repositories
 │   ├── views/
-│   │   ├── home/             # Home tabs and event components
-│   │   ├── events/           # Create, Edit, and My Events screens
-│   │   ├── details/          # Event detail screens
-│   │   ├── settings/         # App settings and themes
-│   │   └── welcome/          # Onboarding and login flow
-│   ├── widgets/              # Reusable UI components (Buttons, Fields)
-│   ├── theme.dart            # Main theme configuration
-│   ├── main.dart             # App entry point with secure init
-│   └── routes.dart           # Named route management
-├── web/
-│   ├── index.html
-│   └── privacy_policy.html   # Privacy policy for Google Play
-├── pubspec.yaml              # Project dependencies & versioning
+│   │   ├── accounts/
+│   │   ├── details/
+│   │   ├── edit_profile/
+│   │   ├── events/screens/        # Create and manage events
+│   │   ├── favorite/
+│   │   ├── forgot_password/
+│   │   ├── help_support/
+│   │   ├── home/
+│   │   │   ├── components/
+│   │   │   └── screens/
+│   │   ├── login/
+│   │   ├── notifications/
+│   │   ├── pick_location/
+│   │   ├── register/
+│   │   ├── search/
+│   │   ├── settings/
+│   │   └── welcome/
+│   ├── widgets/
+│   │   ├── backgrounds/
+│   │   ├── buttons/
+│   │   ├── dialogs/
+│   │   ├── fields/
+│   │   ├── forms/
+│   │   └── images/
+│   ├── main.dart                  # App entry point
+│   ├── routes.dart                # Named route configuration
+│   ├── theme.dart                 # App theme
+│   └── theme_helper.dart          # Theme helpers
+├── test/                          # Flutter tests
+├── pubspec.yaml                   # Dependencies and asset declarations
 └── README.md
 ```
-
 ---
 
 ## 📦 How to Use

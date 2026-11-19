@@ -85,11 +85,14 @@ class CreateEventScreen extends StatelessWidget {
 
   /// Generate event details using AI
   Future<void> _generateEventWithAI(BuildContext context) async {
+    var ideaText = '';
+
     final String? idea = await showDialog<String>(
       context: context,
       builder: (ctx) => AlertDialog(
         title: const Text('Event Idea'),
         content: TextField(
+          onChanged: (value) => ideaText = value,
           decoration: const InputDecoration(
             hintText: 'Describe your event idea (e.g., UI/UX workshop for beginners in Cairo)',
             border: OutlineInputBorder(),
@@ -102,17 +105,16 @@ class CreateEventScreen extends StatelessWidget {
             onPressed: () => Navigator.pop(ctx),
             child: const Text('Cancel'),
           ),
-          TextButton(
+          ElevatedButton(
             onPressed: () {
-              // This is simplified. In production, use a TextEditingController
-              final controller = TextEditingController(); // You should improve this
-              Navigator.pop(ctx, controller.text.trim());
+              Navigator.pop(ctx, ideaText.trim());
             },
             child: const Text('Generate'),
           ),
         ],
       ),
     );
+
 
     if (idea == null || idea.trim().isEmpty) return;
 
@@ -122,28 +124,42 @@ class CreateEventScreen extends StatelessWidget {
       final aiService = AIService();
       final result = await aiService.generateEventFromIdea(idea);
 
+      if (!context.mounted) return;
+
       // Auto-fill the form fields
       viewModel.titleController.text = result['title'] ?? '';
       viewModel.descriptionController.text = result['description'] ?? '';
 
-      // Optional: Set location from category if you want
-      if (result['category'] != null) {
-        viewModel.setLocation(address: result['category']!);
+      final locationStr = result['location'] ?? result['category'];
+      if (locationStr != null && locationStr.toString().isNotEmpty) {
+        viewModel.setLocation(address: locationStr.toString());
       }
+
+      // Auto-fill default date range if not yet selected
+      if (viewModel.selectedDateRange.value == null) {
+        final tomorrow = DateTime.now().add(const Duration(days: 1));
+        final start = DateTime(tomorrow.year, tomorrow.month, tomorrow.day, 10, 0);
+        final end = DateTime(tomorrow.year, tomorrow.month, tomorrow.day, 12, 0);
+        viewModel.setDateRange(DateTimeRange(start: start, end: end));
+      }
+
+      if (!context.mounted) return;
 
       Get.snackbar(
         'Success',
-        'Event generated successfully with AI',
+        'Event generated successfully with AI!',
         backgroundColor: Colors.green,
         colorText: Colors.white,
         snackPosition: SnackPosition.TOP,
       );
     } catch (e) {
+      if (!context.mounted) return;
       Get.snackbar(
         'Error',
         'Failed to generate event with AI: $e',
         backgroundColor: Colors.red,
         colorText: Colors.white,
+        snackPosition: SnackPosition.TOP,
       );
     } finally {
       viewModel.isGenerating.value = false;
@@ -163,8 +179,6 @@ class CreateEventScreen extends StatelessWidget {
       );
       viewModel.setLocation(address: event!.location ?? '');
       viewModel.imagePath.value = event!.image ?? '';
-    } else {
-      viewModel.reset();
     }
 
     final String actionLabel = event == null ? 'Create Event' : 'Update Event';
@@ -204,18 +218,32 @@ class CreateEventScreen extends StatelessWidget {
               Gutter(),
 
               // AI Generate Button
-              Obx(() => ElevatedButton.icon(
-                onPressed: viewModel.isGenerating.value
-                    ? null
-                    : () => _generateEventWithAI(context),
-                icon: const Icon(Icons.auto_awesome),
-                label: const Text('Generate Event with AI'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.purple,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 12 , horizontal: 12),
-                ),
-              )),
+              Obx(() {
+                final isGenerating = viewModel.isGenerating.value;
+                return ElevatedButton.icon(
+                  onPressed: isGenerating
+                      ? null
+                      : () => _generateEventWithAI(context),
+                  icon: isGenerating
+                      ? const SizedBox(
+                          width: 18,
+                          height: 18,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
+                        )
+                      : const Icon(Icons.auto_awesome),
+                  label: Text(
+                    isGenerating ? 'Generating event...' : 'Generate Event with AI',
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.purple,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                  ),
+                );
+              }),
 
               // const SizedBox(height: 16),
               Gutter(),

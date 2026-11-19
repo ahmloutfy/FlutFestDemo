@@ -17,5 +17,6 @@ class CreateEventBinding extends Bindings {
   void dependencies() {
     Get.put<EventController>(EventController(), permanent: true);
     Get.put<CreateEventViewModel>(CreateEventViewModel(), permanent: true);
+    Get.find<CreateEventViewModel>().reset();
   }
 }

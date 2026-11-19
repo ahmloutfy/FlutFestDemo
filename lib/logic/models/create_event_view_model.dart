@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
@@ -9,6 +8,7 @@ class CreateEventViewModel extends GetxController {
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   final locationController = TextEditingController();
+  final Geocoding _geocoding = Geocoding();
 
   // Location
   RxString pickedLocationText = ''.obs;
@@ -69,9 +69,8 @@ class CreateEventViewModel extends GetxController {
   // ==================== Reverse Geocoding ====================
   Future<void> getAddressFromLatLng(double lat, double lng) async {
     try {
-      final geocoding = Geocoding();
       List<Placemark> placemarks =
-          await geocoding.placemarkFromCoordinates(lat, lng);
+          await _geocoding.placemarkFromCoordinates(lat, lng);
 
       if (placemarks.isNotEmpty) {
         final placemark = placemarks.first;

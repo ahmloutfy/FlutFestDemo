@@ -16,9 +16,18 @@ class NotificationService {
     // startup independent from those platform implementations.
     if (kIsWeb) return;
 
-    tz.initializeTimeZones();
-    final String timeZoneName = (await FlutterTimezone.getLocalTimezone()).identifier;
-    tz.setLocalLocation(tz.getLocation(timeZoneName));
+    try {
+      tz.initializeTimeZones();
+      final dynamic tzResult = await FlutterTimezone.getLocalTimezone();
+      final String timeZoneName =
+          tzResult is String ? tzResult : (tzResult?.identifier ?? 'UTC');
+      tz.setLocalLocation(tz.getLocation(timeZoneName));
+    } catch (e) {
+      debugPrint('Notification timezone init error: $e');
+      try {
+        tz.setLocalLocation(tz.getLocation('UTC'));
+      } catch (_) {}
+    }
 
     const androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
     const iosSettings = DarwinInitializationSettings(
@@ -50,7 +59,6 @@ class NotificationService {
         AndroidFlutterLocalNotificationsPlugin>();
 
     await androidPlugin?.requestNotificationsPermission();
-    await androidPlugin?.requestExactAlarmsPermission();
 
     // Request for iOS
     await _notifications
